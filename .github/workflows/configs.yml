@@ -35,7 +35,6 @@ jobs:
           cd ~
           wget https://github.com/ssut/payload-dumper-go/releases/download/1.2.2/payload-dumper-go_1.2.2_linux_amd64.tar.gz
           tar -zxvf payload-dumper-go_1.2.2_linux_amd64.tar.gz
-          cd payload-dumper-go_1.2.2_linux_amd64
           aria2c -s 10 -x 10 -d . -o firmware.zip "${{ github.event.inputs.rom_url }}"
           ./extractor.sh firmware.zip
           chmod +x payload-dumper-go
