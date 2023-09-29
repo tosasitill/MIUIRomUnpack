@@ -35,7 +35,7 @@ jobs:
           ./payload-dumper-go -p system,product,system_ext -o ~/1 firmware.zip
           cd ~/1
           current_datetime=$(date -u -d '8 hours' +'%Y%m%d%H%M')
-          zip ./* "DSUloaderZIP_by_tosasitill_$current_datetime.zip"
+          zip "DSUloaderZIP_by_tosasitill_$current_datetime.zip" ./*
           cd ${{ github.workspace }}
           end_time=$(date +%s)
           execution_time=$((end_time - start_time))
