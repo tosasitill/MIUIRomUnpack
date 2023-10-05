@@ -34,8 +34,12 @@ jobs:
           chmod +x payload-dumper-go
           ./payload-dumper-go -p system,product,system_ext -o ~/1 firmware.zip
           cd ~/1
-          current_datetime=$(date -u -d '8 hours' +'%Y%m%d%H%M')
-          zip "DSUloaderZIP_by_tosasitill_$current_datetime.zip" ./*
+          7za a -t7z -r DSUloaderZIP_by_tosasitill.zip ./*
+          
+          echo "--------------------------------------"
+          
+          if [ $(ls -l DSUloaderZIP_by_tosasitill.zip | awk '{print $5}') -gt 2147483647 ]; then tar cvzpf - DSUloaderZIP_by_tosasitill.zip | split -d -b 1024m - 1/DSUloaderZIP_by_tosasitill.zip; else mv DSUloaderZIP_by_tosasitill.zip 1/DSUloaderZIP_by_tosasitill.zip; fi
+
           cd ${{ github.workspace }}
           end_time=$(date +%s)
           execution_time=$((end_time - start_time))
@@ -48,7 +52,7 @@ jobs:
       - name: 上传镜像及相关信息
         uses: ncipollo/release-action@v1.12.0
         with:
-            artifacts: "~/1/DSUloaderZIP_by_tosasitill_$current_datetime.zip"
+            artifacts: "~/1/*"
             bodyfile: "${{ github.workspace }}/info.md"
             tag: "OUTPUT_${{ env.BUILD_TIME }}_${{ github.run_id }}"
             token: ${{ secrets.GITHUB_TOKEN }}
